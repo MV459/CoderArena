@@ -1,2 +1,2 @@
 # CoderArena
-Online Judge MERN based web application
+Online Judge MERN based web applications
