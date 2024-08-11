@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Register.css';
 import logo from '../../assets/ca-logo3.png';
-import { Link } from 'react-router-dom';
+import styles from './Register.module.css';
 
 const registerStyles = {
     form: {
@@ -11,8 +11,8 @@ const registerStyles = {
         gridTemplateColumns: '1fr 1fr',
     },
     button: {
-        gridColumn: '1 / -1', 
-        background: '#b27a25', 
+        gridColumn: '1 / -1',
+        background: '#b27a25',
     },
     buttonHover: {
         background: '#e98615',
@@ -25,8 +25,11 @@ const Register = () => {
         lastname: '',
         email: '',
         password: '',
-        phoneno: ''
+        phoneno: '',
+        role: 'user'
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,29 +42,75 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/register', formData);
-            alert(response.data.message);
+            const response = await axios.post('http://localhost:8000/api/users/register', formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 201) {
+                alert('Registration successful! Please log in.');
+                navigate('/login');
+            } else {
+                alert('Registration failed');
+            }
         } catch (error) {
             console.error('Registration error:', error.response ? error.response.data : error.message);
-            alert('Registration failed. Please try again.');
+            alert('Registration failed');
         }
     };
 
     return (
-        <div className="card">
-            <img className="logo" src={logo} alt="Logo" />
-            <h2>Create Account</h2>
-            <form className="form" onSubmit={handleSubmit} style={registerStyles.form}>
-                <input type="text" name="firstname" placeholder="First Name" value={formData.firstname} onChange={handleChange} />
-                <input type="text" name="lastname" placeholder="Last Name" value={formData.lastname} onChange={handleChange} />
-                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                <input type="tel" name="phoneno" placeholder="Phone Number" value={formData.phoneno} onChange={handleChange} />
-                <button type="submit" style={registerStyles.button}>Register</button>
-            </form>
-            <footer>
-                Already have an account? <Link to="/login">Sign in</Link>
-            </footer>
+        <div className={styles['register-background']}>
+            <div className={styles.card}>
+                <img className={styles.logo} src={logo} alt="Logo" />
+                <h2>Join Coder Arena</h2>
+                <form className={styles.form} onSubmit={handleSubmit} style={registerStyles.form}>
+                    <input 
+                        type="text" 
+                        name="firstname" 
+                        placeholder="First Name" 
+                        value={formData.firstname} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    <input 
+                        type="text" 
+                        name="lastname" 
+                        placeholder="Last Name" 
+                        value={formData.lastname} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Email" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    <input 
+                        type="password" 
+                        name="password" 
+                        placeholder="Password" 
+                        value={formData.password} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    <input 
+                        type="text" 
+                        name="phoneno" 
+                        placeholder="Phone Number" 
+                        value={formData.phoneno} 
+                        onChange={handleChange} 
+                    />
+                    <button type="submit" style={registerStyles.button}>Sign Up</button>
+                </form>
+                <footer>
+                    Already have an account? <Link to="/login">Sign in</Link>
+                </footer>
+            </div>
         </div>
     );
 };

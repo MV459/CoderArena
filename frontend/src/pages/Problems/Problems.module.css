@@ -1,0 +1,107 @@
+.problemsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.problemsContainer h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.problemsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.problemItem {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.problemTitle {
+  flex: 1;
+}
+
+.problemTitle h3 {
+  margin: 0;
+  color: #007bff;
+  font-size: 1.2em;
+}
+
+.problemDetails {
+  display: flex;
+  align-items: center;
+}
+
+.difficulty {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.easy {
+  background-color: #28a745;
+}
+
+.medium {
+  background-color: #ffc107;
+}
+
+.hard {
+  background-color: #dc3545;
+}
+
+.submissions {
+  color: #6c757d;
+  font-size: 0.9em;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin: 20px;
+}
+
+.adminActions {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.updateButton,
+.deleteButton {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.updateButton {
+  background-color: #007bff;
+}
+
+.updateButton:hover {
+  background-color: #0056b3;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}

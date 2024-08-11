@@ -1,0 +1,19 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    environment:
+      - MONGODB_URI=mongodb+srv://saiavinashmandava45:avinash123@cluster0.kdsmosk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - SECRET_KEY=SECRET_KEY
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'

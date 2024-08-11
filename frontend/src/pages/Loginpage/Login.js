@@ -1,26 +1,30 @@
-import { Link } from 'react-router-dom';
-import logo from '../../assets/ca-logo3.png';
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css';
+import logo from '../../assets/ca-logo3.png';
+import styles from './Login.module.css';
+
 const loginStyles = {
-  form: {
-    display: 'grid',
-    gap: '16px',
-    gridTemplateColumns: '1fr', 
-  },
-  button: {
-    background: '#b27a25', 
-  },
-  buttonHover: {
-    background: '#d18b3d', 
-  }
-};
+    form: {
+      display: 'grid',
+      gap: '16px',
+      gridTemplateColumns: '1fr', 
+    },
+    button: {
+      background: '#b27a25', 
+    },
+    buttonHover: {
+      background: '#d18b3d', 
+    }
+  };
+  
 const Login = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,26 +37,59 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/login', formData);
-            alert(response.data.message);
+            const response = await axios.post('http://localhost:8000/api/users/login', formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                const { role } = response.data;
+
+                localStorage.setItem('userRole', role);
+
+                if (role === 'admin') {
+                    navigate('/admin/create-problem');
+                } else {
+                    navigate('/problems');
+                }
+            } else {
+                alert('Login failed');
+            }
         } catch (error) {
-            console.error('Login error:', error.response ? error.response.data : error);
-            alert('Login failed. Please try again.');
+            console.error('Login error:', error);
+            alert('Login failed');
         }
     };
 
     return (
-        <div className="card">
-            <img className="logo" src={logo} alt="Logo" />
-            <h2>Welcome Back to Coder Arena</h2>
-            <form className="form" onSubmit={handleSubmit} style={loginStyles.form}>
-                <input type="email" name="email" placeholder="Username" value={formData.email} onChange={handleChange} />
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                <button type="submit" style={loginStyles.button}>Sign In</button>
-            </form>
-            <footer>
-                Need an account? <Link to="/register">Sign up</Link>
-            </footer>
+        <div className={styles['login-background']}>
+            <div className={styles.card}>
+                <img className={styles.logo} src={logo} alt="Logo" />
+                <h2>Welcome Back to Coder Arena</h2>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Username" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    <input 
+                        type="password" 
+                        name="password" 
+                        placeholder="Password" 
+                        value={formData.password} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    <button type="submit">Sign In</button>
+                </form>
+                <footer>
+                    Need an account? <Link to="/register">Sign up</Link>
+                </footer>
+            </div>
         </div>
     );
 };
