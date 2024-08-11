@@ -96,8 +96,8 @@ const Problem = () => {
           <div className={styles.languageSelector}>
             <label htmlFor="language">Language:</label>
             <select id="language" value={language} onChange={handleLanguageChange} className={styles.languageDropdown}>
-              <option value="python">Python</option>
               <option value="cpp">C++</option>
+              <option value="python">Python</option>
               <option value="java">Java</option>
             </select>
           </div>

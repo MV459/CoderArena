@@ -134,6 +134,9 @@ DBConnection();
 const app = express();
 
 const cors = require('cors');
+const corsOptions={
+    origin:['http://localhost:3000','https://coder-arena.vercel.app']
+}
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
