@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../assets/ca-logo3.png';
 import styles from './Login.module.css';
+import { BASE_URL } from '../../config';
 
 const loginStyles = {
     form: {
@@ -37,7 +38,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/users/login', formData, {
+            const response = await axios.post(`${BASE_URL}/api/users/login`, formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

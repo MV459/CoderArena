@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../assets/ca-logo3.png';
 import styles from './Register.module.css';
-
+import { BASE_URL } from '../../config';
 const registerStyles = {
     form: {
         display: 'grid',
@@ -42,7 +42,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/users/register', formData, {
+            const response = await axios.post(`${BASE_URL}/api/users/register`, formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

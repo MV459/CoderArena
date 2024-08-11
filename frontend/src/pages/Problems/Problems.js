@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Problems.module.css';
 import { useNavigate } from 'react-router-dom';
-
+import { BASE_URL } from '../../config';
 
 const Problems = () => {
   const [problems, setProblems] = useState([]);
@@ -48,7 +48,7 @@ const Problems = () => {
 
     const fetchProblems = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/problems');
+        const response = await fetch(`${BASE_URL}/api/problems`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -66,7 +66,7 @@ const Problems = () => {
 
   const handleDelete = async (problemId) => {
     try {
-      await fetch(`http://localhost:8000/api/problems/${problemId}`, {
+      await fetch(`${BASE_URL}/api/problems/${problemId}`, {
         method: 'DELETE',
       });
       setProblems(problems.filter((problem) => problem._id !== problemId));
