@@ -40,7 +40,7 @@ const Problem = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/api/problems/run`, {
+      const response = await fetch(`https://coderarena.onrender.com/api/problems/run`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,6 +52,7 @@ const Problem = () => {
           language,
         }),
       });
+      console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
