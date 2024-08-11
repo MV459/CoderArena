@@ -11,7 +11,7 @@ const Problem = () => {
   const [results, setResults] = useState(null);
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [language, setLanguage] = useState('c++'); 
+  const [language, setLanguage] = useState('cpp'); 
 
   useEffect(() => {
     const fetchProblem = async () => {
