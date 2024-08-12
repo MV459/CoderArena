@@ -19,6 +19,24 @@ router.get('/:id',async (req,res)=>{
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+  
+    try {
+      const updatedProblem = await Problem.findByIdAndUpdate(id, updatedData, { new: true });
+  
+      if (!updatedProblem) {
+        return res.status(404).json({ message: 'Problem not found' });
+      }
+  
+      res.json(updatedProblem);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error });
+    }
+  });
+  
 router.post('/create', async (req, res) => {
     try {
         const { title, description, difficulty, inputFormat, outputFormat, sampleTestCases, inputFile, outputFile, topicTags } = req.body;
@@ -47,7 +65,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.delete('/problems/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
       const problem = await Problem.findByIdAndDelete(req.params.id);
       if (!problem) {

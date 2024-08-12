@@ -127,7 +127,7 @@ const Problem = () => {
               <pre className={styles.outputArea}>{output}</pre>
             </div>
           </div>
-          <button type="submit" className={styles.submitButton}>Submit Code</button>
+          <button type="submit" className={styles.submitButton}>Run Code</button>
         </form>
       </div>
     </div>

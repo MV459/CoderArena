@@ -1,6 +1,6 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import AdminNavbar from '../components/AdminNavbar';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 import Problems from '../pages/Problems/Problems';
 import CreateProblem from '../pages/CreateProblem/CreateProblem';
 import Problem from '../pages/Problem/Problem';  
@@ -10,12 +10,13 @@ const AdminRoutes = () => {
 
   return (
     <>
-      <AdminNavbar />
+      <Navbar />
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="problems" element={<Problems isAdmin={isAdmin} />} />
         <Route path="create-problem" element={<CreateProblem />} />
+        <Route path="create-problem/:id" element={<CreateProblem />} />
         <Route path="problem/:id" element={<Problem />} />
-        {/* Add other admin routes here */}
       </Routes>
     </>
   );

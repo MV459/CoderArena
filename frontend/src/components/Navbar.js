@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/ca-logo3.png'; 
 
 const Navbar = () => {
+  const userRole = localStorage.getItem('userRole');
+
   const navStyle = {
     backgroundColor: '#1f1e1b',
     padding: '10px 20px',
@@ -16,12 +18,12 @@ const Navbar = () => {
     margin: 0,
     padding: 0,
     display: 'flex',
-    gap: '20px' 
+    gap: '20px'
   };
 
   const aStyle = {
     textDecoration: 'none',
-    color: 'white', 
+    color: 'white',
     fontWeight: 'bold',
     padding: '8px 16px',
     borderRadius: '4px',
@@ -29,23 +31,21 @@ const Navbar = () => {
   };
 
   const aHoverStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)' 
+    backgroundColor: 'rgba(255, 255, 255, 0.1)'
   };
 
   const logoStyle = {
     height: '40px',
     width: '40px',
     borderRadius: '50%',
-    objectFit: 'cover', 
+    objectFit: 'cover',
     marginRight: '20px'
   };
-  
 
   return (
     <nav style={navStyle}>
-      
-        <img src={logo} alt="Logo" style={logoStyle} />
-    
+      <img src={logo} alt="Logo" style={logoStyle} />
+
       <ul style={ulStyle}>
         <li>
           <Link 
@@ -57,6 +57,18 @@ const Navbar = () => {
             Problems
           </Link>
         </li>
+        {userRole === 'admin' && (
+          <li>
+            <Link 
+              to="/admin/create-problem" 
+              style={aStyle} 
+              onMouseEnter={(e) => e.target.style.backgroundColor = aHoverStyle.backgroundColor}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            >
+              Create Problem
+            </Link>
+          </li>
+        )}
       </ul>
       <Link 
         to="/login" 

@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './CreateProblem.module.css';
 
 const CreateProblem = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { problemId } = location.state || {}; 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState('easy');
@@ -11,28 +15,51 @@ const CreateProblem = () => {
   const [topicTags, setTopicTags] = useState([]);
   const [newTag, setNewTag] = useState('');
 
+  useEffect(() => {
+    if (problemId) {
+      const fetchProblemDetails = async () => {
+        try {
+          const response = await fetch(`http://localhost:8000/api/problems/${problemId}`);
+          const problem = await response.json();
+
+          setTitle(problem.title);
+          setDescription(problem.description);
+          setDifficulty(problem.difficulty);
+          setInputFormat(problem.inputFormat);
+          setOutputFormat(problem.outputFormat);
+          setSampleTestCases(problem.sampleTestCases || [{ input: '', output: '', explanation: '' }]);
+          setTopicTags(problem.topicTags);
+        } catch (error) {
+          console.error('Error fetching problem details:', error);
+        }
+      };
+
+      fetchProblemDetails();
+    }
+  }, [problemId]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:8000/api/problems/create', {
-      method: 'POST',
+
+    const url = problemId
+      ? `http://localhost:8000/api/problems/${problemId}`
+      : 'http://localhost:8000/api/problems/create';
+
+    const method = problemId ? 'PUT' : 'POST';
+
+    const response = await fetch(url, {
+      method,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, description, difficulty, inputFormat, outputFormat, sampleTestCases, topicTags })
+      body: JSON.stringify({ title, description, difficulty, inputFormat, outputFormat, sampleTestCases, topicTags }),
     });
 
     if (response.ok) {
-      alert('Problem created successfully');
-      setTitle('');
-      setDescription('');
-      setDifficulty('easy');
-      setInputFormat('');
-      setOutputFormat('');
-      setSampleTestCases([{ input: '', output: '', explanation: '' }]);
-      setTopicTags([]);
-      setNewTag('');
+      alert(`Problem ${problemId ? 'updated' : 'created'} successfully`);
+      navigate('/problems'); 
     } else {
-      alert('Error creating problem');
+      alert('Error in submitting problem');
     }
   };
 
@@ -54,29 +81,29 @@ const CreateProblem = () => {
 
   return (
     <div className={styles['create-problem']}>
-      <h2>Create Problem</h2>
+      <h2>{problemId ? 'Update Problem' : 'Create Problem'}</h2>
       <form onSubmit={handleSubmit}>
         <div className={styles['form-group']}>
           <label>Title</label>
-          <input 
-            type="text" 
-            value={title} 
-            onChange={(e) => setTitle(e.target.value)} 
-            required 
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </div>
         <div className={styles['form-group']}>
           <label>Description</label>
-          <textarea 
-            value={description} 
-            onChange={(e) => setDescription(e.target.value)} 
-            required 
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
           />
         </div>
         <div className={styles['form-group']}>
           <label>Difficulty</label>
-          <select 
-            value={difficulty} 
+          <select
+            value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
           >
             <option value="easy">Easy</option>
@@ -86,18 +113,18 @@ const CreateProblem = () => {
         </div>
         <div className={styles['form-group']}>
           <label>Input Format</label>
-          <textarea 
-            value={inputFormat} 
-            onChange={(e) => setInputFormat(e.target.value)} 
-            required 
+          <textarea
+            value={inputFormat}
+            onChange={(e) => setInputFormat(e.target.value)}
+            required
           />
         </div>
         <div className={styles['form-group']}>
           <label>Output Format</label>
-          <textarea 
-            value={outputFormat} 
-            onChange={(e) => setOutputFormat(e.target.value)} 
-            required 
+          <textarea
+            value={outputFormat}
+            onChange={(e) => setOutputFormat(e.target.value)}
+            required
           />
         </div>
         <div className={styles['form-group']}>
@@ -106,37 +133,37 @@ const CreateProblem = () => {
             <div key={index} className={styles['test-case']}>
               <div>
                 <label>Input</label>
-                <textarea 
-                  value={testCase.input} 
+                <textarea
+                  value={testCase.input}
                   onChange={(e) => {
                     const newTestCases = [...sampleTestCases];
                     newTestCases[index].input = e.target.value;
                     setSampleTestCases(newTestCases);
-                  }} 
-                  required 
+                  }}
+                  required
                 />
               </div>
               <div>
                 <label>Output</label>
-                <textarea 
-                  value={testCase.output} 
+                <textarea
+                  value={testCase.output}
                   onChange={(e) => {
                     const newTestCases = [...sampleTestCases];
                     newTestCases[index].output = e.target.value;
                     setSampleTestCases(newTestCases);
-                  }} 
-                  required 
+                  }}
+                  required
                 />
               </div>
               <div>
                 <label>Explanation (optional)</label>
-                <textarea 
-                  value={testCase.explanation} 
+                <textarea
+                  value={testCase.explanation}
                   onChange={(e) => {
                     const newTestCases = [...sampleTestCases];
                     newTestCases[index].explanation = e.target.value;
                     setSampleTestCases(newTestCases);
-                  }} 
+                  }}
                 />
               </div>
               <button type="button" onClick={() => handleRemoveTestCase(index)}>Remove Test Case</button>
@@ -146,9 +173,9 @@ const CreateProblem = () => {
         </div>
         <div className={styles['form-group']}>
           <label>Topic Tags</label>
-          <input 
-            type="text" 
-            value={newTag} 
+          <input
+            type="text"
+            value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
             onKeyPress={handleTagKeyPress}
             placeholder="Press enter to add a tag"
@@ -159,10 +186,13 @@ const CreateProblem = () => {
             ))}
           </div>
         </div>
-        <button type="submit" className={styles['submit-button']}>Create Problem</button>
+        <button type="submit" className={styles['submit-button']}>
+          {problemId ? 'Update Problem' : 'Create Problem'}
+        </button>
       </form>
     </div>
   );
 };
 
 export default CreateProblem;
+

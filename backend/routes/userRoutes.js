@@ -6,7 +6,6 @@ const router = express.Router();
 // const authMiddleware = require('../middleware/authorize');
 const authorize = require('../middleware/authorize');
 
-// Registration route
 router.post('/register', async (req, res) => {
     try {
         const { firstname, lastname, email, password, phoneno, role } = req.body;
@@ -36,7 +35,7 @@ router.post('/register', async (req, res) => {
             process.env.SECRET_KEY, 
             { expiresIn: "1h" }
         );
-        res.cookie("jwt", token, { httpOnly: true, secure: false, maxAge: 3600000 }); // Set `secure: false` for local testing
+        res.cookie("jwt", token, { httpOnly: true, secure: false, maxAge: 3600000 }); 
         res.status(201).json({
             message: "You have successfully registered!",
             token,
@@ -48,7 +47,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login route
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -71,7 +69,7 @@ router.post('/login', async (req, res) => {
             process.env.SECRET_KEY, 
             { expiresIn: "1h" }
         );
-        res.cookie("jwt", token, { httpOnly: true, secure: false, maxAge: 3600000 }); // Set `secure: false` for local testing
+        res.cookie("jwt", token, { httpOnly: true, secure: false, maxAge: 3600000 });
         res.status(200).json({
             message: "You have successfully logged in!",
             token,
@@ -83,7 +81,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Protected route to get the current user data
 // router.get('/me', authMiddleware(), async (req, res) => {
 //     try {
 //         const userId = req.user.user_id;

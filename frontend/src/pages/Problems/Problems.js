@@ -7,44 +7,13 @@ const Problems = () => {
   const [problems, setProblems] = useState([]);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const userRole=localStorage.getItem('userRole');
-  const navigate=useNavigate();
-  const handleProblemClick = (id) => {
-        navigate(`/problem/${id}`); // Navigate to the problem detail page with the problem ID
-      };
-  
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(userRole=='admin'){
+    const userRole = localStorage.getItem('userRole');
+    if (userRole === 'admin') {
       setIsAdmin(true);
     }
-    // const fetchUserRole = async () => {
-    //   try {
-    //     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-    //     console.log(token.split(' ')[1])
-    //     const response = await fetch('http://localhost:8000/api/users/me', {
-    //       method: 'GET',
-    //       headers: {
-    //         Authorization: `Bearer ${token.split(' ')[1]}`, // Send token in Authorization header
-    //       },
-    //     });
-
-    //     // if (response.status === 401) {
-    //     //   throw new Error('Unauthorized - token might be missing or expired');
-    //     // }
-
-    //     const user = await response.json();
-    //     console.log('User fetched:', user);
-
-    //     if (user.role === 'admin') {
-    //       setIsAdmin(true);
-    //     }
-    //   } catch (error) {
-    //     console.error('Error fetching user role:', error);
-    //     setError('Failed to fetch user role');
-    //   }
-    // };
 
     const fetchProblems = async () => {
       try {
@@ -60,9 +29,12 @@ const Problems = () => {
       }
     };
 
-    // fetchUserRole(); // Fetch the role of the user
-    fetchProblems(); // Fetch the problems list
+    fetchProblems();
   }, []);
+
+  const handleProblemClick = (id) => {
+    navigate(`/problem/${id}`);
+  };
 
   const handleDelete = async (problemId) => {
     try {
@@ -76,8 +48,7 @@ const Problems = () => {
   };
 
   const handleUpdate = (problemId) => {
-    console.log('Update problem:', problemId);
-    // Implement update logic here
+    navigate(`/admin/create-problem/`, { state: { problemId } });
   };
 
   if (error) {
@@ -89,7 +60,11 @@ const Problems = () => {
       <h2>All Problems</h2>
       <ul className={styles.problemsList}>
         {problems.map((problem) => (
-          <li key={problem._id} className={styles.problemItem} onClick={() => handleProblemClick(problem._id)}>
+          <li
+            key={problem._id}
+            className={styles.problemItem}
+            onClick={() => handleProblemClick(problem._id)}
+          >
             <div className={styles.problemTitle}>
               <h3>{problem.title}</h3>
             </div>
@@ -102,15 +77,21 @@ const Problems = () => {
               </span>
               {isAdmin && (
                 <div className={styles.adminActions}>
-                  <button 
-                    className={styles.updateButton} 
-                    onClick={() => handleUpdate(problem._id)}
+                  <button
+                    className={styles.updateButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdate(problem._id);
+                    }}
                   >
                     Update
                   </button>
-                  <button 
-                    className={styles.deleteButton} 
-                    onClick={() => handleDelete(problem._id)}
+                  <button
+                    className={styles.deleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(problem._id);
+                    }}
                   >
                     Delete
                   </button>

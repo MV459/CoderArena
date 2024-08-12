@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminRoutes from './routes/AdminRoutes';
 import UserRoutes from './routes/UserRoutes';
 import Register from './pages/Register/Register';
-import Login from './pages/Loginpage/Login';  // Ensure the case matches the folder name
-
+import Login from './pages/Loginpage/Login';  
 const App = () => {
   return (
     <Router>
@@ -17,5 +16,4 @@ const App = () => {
     </Router>
   );
 };
-
 export default App;
