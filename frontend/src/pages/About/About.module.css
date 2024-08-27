@@ -1,0 +1,129 @@
+.body {
+    text-align: center;
+    background-color: #dfeffe;
+    padding-bottom: 60px;
+    margin-top: 0; 
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto; 
+    padding: 20px;
+    border-radius: 7px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about_image {
+    width: 50%;
+    padding: 20px;
+}
+
+.about_image img {
+    width: 100%;
+    height: auto;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+.about_team {
+    width: 50%;
+    padding: 20px;
+    text-align: left;
+}
+
+.about_team h2 {
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 20px;
+}
+
+.motive {
+    color: black;
+    font-size: 19px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.motive li {
+    margin-bottom: 10px;
+}
+
+.team {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.team .totalabout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.member {
+    border-radius: 15px;
+    padding: 10px;
+    margin: 40px;
+    width: 300px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(7, 6, 6, 0.1);
+    text-align: center;
+}
+
+.member:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.member-img {
+    margin-bottom: 20px;
+}
+
+.member-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .about-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about_image, .about_team {
+        width: 100%;
+        text-align: center;
+        padding: 0;
+    }
+
+    .motive {
+        margin: 0 20px;
+        font-size: 18px;
+        padding-left: 0;
+        list-style-position: inside;
+    }
+
+    .team .member {
+        margin: 10px;
+        width: 270px;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .motive {
+        margin: 0 20px;
+        font-size: 16px;
+    }
+
+    .team .member {
+        margin: 10px;
+        width: 240px;
+    }
+}

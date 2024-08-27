@@ -47,6 +47,26 @@ const Navbar = () => {
       <img src={logo} alt="Logo" style={logoStyle} />
 
       <ul style={ulStyle}>
+      <li>
+          <Link 
+            to="/home" 
+            style={aStyle} 
+            onMouseEnter={(e) => e.target.style.backgroundColor = aHoverStyle.backgroundColor}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link 
+            to="/about" 
+            style={aStyle} 
+            onMouseEnter={(e) => e.target.style.backgroundColor = aHoverStyle.backgroundColor}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          >
+            About 
+          </Link>
+        </li>
         <li>
           <Link 
             to="/problems" 
@@ -69,6 +89,16 @@ const Navbar = () => {
             </Link>
           </li>
         )}
+        <li>
+          <Link 
+            to="/contact" 
+            style={aStyle} 
+            onMouseEnter={(e) => e.target.style.backgroundColor = aHoverStyle.backgroundColor}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          >
+            Contact
+          </Link>
+        </li>
       </ul>
       <Link 
         to="/login" 

@@ -1,0 +1,20 @@
+.home-container {
+    @apply flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-600;
+  }
+  
+  .home-content {
+    @apply text-center text-white max-w-2xl p-8;
+  }
+  
+  .home-title {
+    @apply text-4xl font-bold mb-4;
+  }
+  
+  .home-text {
+    @apply text-lg mb-8;
+  }
+  
+  .cta-button {
+    @apply bg-white text-indigo-600 font-semibold px-6 py-2 rounded-lg hover:bg-gray-100 transition;
+  }
+  

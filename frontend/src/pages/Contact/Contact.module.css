@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Oswald:wght@500&family=Playfair+Display:wght@700&display=swap');
+
+.body {
+    background-color: #c2e2ff;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+.contactus-container {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    width: 1000px; 
+    height: auto;  
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 7px;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+}
+
+.contactus-links .single-link {
+    margin-bottom: 5px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 200;
+    color: black;
+}
+
+.contactus-links .single-link i {
+    margin-right: 10px;
+}
+
+.contactus-image {
+    max-width: auto;
+    height: auto;    
+    display: block;
+    margin: auto;
+}
+
+.contactus-left {
+    width: 48%; 
+    background-color: #1616d728;
+    padding: 20px;
+    color: rgb(45, 17, 17);
+    border-radius: 7px;
+    margin-right: 10px;
+    border: 0.3px solid rgb(41, 2, 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.contactus-right {
+    width: 48%; 
+    padding: 20px;
+    background-color: #c6b8cd;
+    border-radius: 7px;
+    border: 0.3px solid rgb(41, 2, 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contactus-title {
+    margin-bottom: 15px;
+    font-size: 30px;
+    text-align: center;
+    color: black;
+}
+.contactus-right input,
+.contactus-right textarea {
+    width: 95%;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.contactus-right input {
+    height: 45px; 
+}
+
+.contactus-right textarea {
+    height: 140px; 
+    padding-top: 10px;
+}
+
+.contactus-submit {
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgb(3, 74, 3);
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    align-self: center;
+    border-radius: 5px;
+    transition: ease-out 0.3s;
+}
+
+.contactus-submit:hover {
+    background-color: rgb(4, 84, 4);
+    color: white;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1100px) {
+    .contactus-container {
+        flex-direction: column;
+        width: 600px;
+        padding-bottom: 20px;
+    }
+
+    .contactus-left,
+    .contactus-right {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .contactus-container {
+        width: 340px;
+        padding-bottom: 10px;
+    }
+
+    .contactus-left,
+    .contactus-right {
+        width: 100%;
+        height: auto;
+        font-size: 12px;
+    }
+
+    .contactus-image {
+        width: 100%;
+    }
+
+    .contactus-right input {
+        height: 35px;
+    }
+
+    .contactus-right textarea {
+        height: 140px;
+    }
+}

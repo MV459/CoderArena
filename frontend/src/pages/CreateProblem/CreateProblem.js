@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './CreateProblem.module.css';
+import Swal from 'sweetalert2';
 
 const CreateProblem = () => {
   const location = useLocation();
@@ -38,8 +39,57 @@ const CreateProblem = () => {
     }
   }, [problemId]);
 
+  const validateForm = () => {
+    if (!title.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: 'Title is required',
+      });
+      return false;
+    }
+    if (!description.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: 'Description is required',
+      });
+      return false;
+    }
+    if (!inputFormat.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: 'Input Format is required',
+      });
+      return false;
+    }
+    if (!outputFormat.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: 'Output Format is required',
+      });
+      return false;
+    }
+    for (const testCase of sampleTestCases) {
+      if (!testCase.input.trim() || !testCase.output.trim()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: 'All test cases must have input and output',
+        });
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
 
     const url = problemId
       ? `http://localhost:8000/api/problems/${problemId}`
@@ -47,19 +97,35 @@ const CreateProblem = () => {
 
     const method = problemId ? 'PUT' : 'POST';
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, description, difficulty, inputFormat, outputFormat, sampleTestCases, topicTags }),
-    });
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, description, difficulty, inputFormat, outputFormat, sampleTestCases, topicTags }),
+      });
 
-    if (response.ok) {
-      alert(`Problem ${problemId ? 'updated' : 'created'} successfully`);
-      navigate('/problems'); 
-    } else {
-      alert('Error in submitting problem');
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: `Problem ${problemId ? 'updated' : 'created'} successfully`,
+        }).then(() => navigate('/problems'));
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error in submitting problem',
+        });
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An error occurred while submitting the problem',
+      });
     }
   };
 
@@ -195,4 +261,3 @@ const CreateProblem = () => {
 };
 
 export default CreateProblem;
-

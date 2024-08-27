@@ -56,6 +56,7 @@ const Problems = () => {
   }
 
   return (
+    <body>
     <div className={styles.problemsContainer}>
       <h2>All Problems</h2>
       <ul className={styles.problemsList}>
@@ -72,9 +73,9 @@ const Problems = () => {
               <span className={`${styles.difficulty} ${styles[problem.difficulty]}`}>
                 {problem.difficulty}
               </span>
-              <span className={styles.submissions}>
+              {/* <span className={styles.submissions}>
                 {problem.submissionsCount} submissions
-              </span>
+              </span> */}
               {isAdmin && (
                 <div className={styles.adminActions}>
                   <button
@@ -102,6 +103,7 @@ const Problems = () => {
         ))}
       </ul>
     </div>
+    </body>
   );
 };
 

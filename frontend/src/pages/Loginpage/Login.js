@@ -4,21 +4,22 @@ import axios from 'axios';
 import logo from '../../assets/ca-logo3.png';
 import styles from './Login.module.css';
 import { BASE_URL } from '../../config';
+import Swal from 'sweetalert2';
 
 const loginStyles = {
     form: {
-      display: 'grid',
-      gap: '16px',
-      gridTemplateColumns: '1fr', 
+        display: 'grid',
+        gap: '16px',
+        gridTemplateColumns: '1fr',
     },
     button: {
-      background: '#b27a25', 
+        background: '#b27a25',
     },
     buttonHover: {
-      background: '#d18b3d', 
+        background: '#d18b3d',
     }
-  };
-  
+};
+
 const Login = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -26,6 +27,29 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+
+    const validate = () => {
+        const { email, password } = formData;
+        let valid = true;
+
+        if (!email) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: 'Email is required',
+            });
+            valid = false;
+        } else if (!password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: 'Password is required',
+            });
+            valid = false;
+        }
+
+        return valid;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,6 +61,10 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validate()) {
+            return;
+        }
+
         try {
             const response = await axios.post(`${BASE_URL}/api/users/login`, formData, {
                 headers: {
@@ -49,17 +77,31 @@ const Login = () => {
 
                 localStorage.setItem('userRole', role);
 
-                if (role === 'admin') {
-                    navigate('/admin/create-problem');
-                } else {
-                    navigate('/problems');
-                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: 'Welcome back!',
+                }).then(() => {
+                    if (role === 'admin') {
+                        navigate('/admin/create-problem');
+                    } else {
+                        navigate('/problems');
+                    }
+                });
             } else {
-                alert('Login failed');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: 'Invalid credentials',
+                });
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Login failed');
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: 'An error occurred during login',
+            });
         }
     };
 
@@ -85,7 +127,7 @@ const Login = () => {
                         onChange={handleChange} 
                         required 
                     />
-                    <button type="submit">Sign In</button>
+                    <button type="submit" style={loginStyles.button}>Sign In</button>
                 </form>
                 <footer>
                     Need an account? <Link to="/register">Sign up</Link>

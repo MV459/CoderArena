@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Problems from '../pages/Problems/Problems';
 import CreateProblem from '../pages/CreateProblem/CreateProblem';
 import Problem from '../pages/Problem/Problem';  
+import Footer from '../components/Footer';
 
 const AdminRoutes = () => {
   const isAdmin = true;  
@@ -12,12 +13,11 @@ const AdminRoutes = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="problems" element={<Problems isAdmin={isAdmin} />} />
         <Route path="create-problem" element={<CreateProblem />} />
-        <Route path="create-problem/:id" element={<CreateProblem />} />
-        <Route path="problem/:id" element={<Problem />} />
+        <Route path="create-problem/:id" element={<CreateProblem />} />   
       </Routes>
+      <Footer />
     </>
   );
 };
